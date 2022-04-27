@@ -65,20 +65,20 @@ jobs:
   #         manifests: |
   #           ${{ github.workspace }}/manifest/deployment1.yaml
   #         namespace: default
-destroy:
-  # needs: deployk8s
-  needs: validate
-  runs-on: ubuntu-latest
-  env:
-    USER_STAGE: "lsztuk"
-    ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
-    ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
-    ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-    ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
-  steps:
-    - uses: actions/checkout@v3
+  destroy:
+    # needs: deployk8s
+    needs: validate
+    runs-on: ubuntu-latest
+    env:
+      USER_STAGE: "lsztuk"
+      ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_AD_TENANT_ID }}
+    steps:
+      - uses: actions/checkout@v3
 
-    - name: Destroy terraform infrastructure
-      run: |
-        terraform init -backend-config="./config/${{env.USER_STAGE}}/backend.conf"
-        terraform destroy -var-file="./config/${{env.USER_STAGE}}/env.tfvars" -auto-approve
+      - name: Destroy terraform infrastructure
+        run: |
+          terraform init -backend-config="./config/${{env.USER_STAGE}}/backend.conf"
+          terraform destroy -var-file="./config/${{env.USER_STAGE}}/env.tfvars" -auto-approve
